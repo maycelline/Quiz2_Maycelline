@@ -4,78 +4,74 @@ import Controller.Controller;
 import Model.User;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class LoginScreen {
     JFrame frame;
     JPanel panel;
     JButton buttonLogin, buttonBack;
-    JLabel labelEmail, labelPassword;
+    JLabel labelEmail, labelPassword, labelLogo, labelJudul;
     JTextField inputEmail;
     JPasswordField inputPassword;
-    public LoginScreen(){
+    ImageIcon logo;
+    DefaultComponentSettings GUI = new DefaultComponentSettings();
+
+    public LoginScreen() {
         //Frame
-        frame = new JFrame("Quiz 2");
-        frame.setSize(600,800);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        frame = GUI.defaultFrame();
 
         //Panel
-        panel = new JPanel();
-        panel.setSize(600,800);
-        panel.setLayout(null);
+        panel = GUI.defaultPanel();
+
+        //Logo
+        labelLogo = new JLabel();
+        logo = new ImageIcon("assets/hospital.png");
+        labelLogo.setIcon(logo);
+        labelLogo.setBounds(100, 90, 100, 100);
+
+        //Hospital
+        labelJudul = GUI.headingText("Rumah Sakit Anticry");
+        labelJudul.setBounds(220, 120, 350, 40);
 
         //Label Email
-        labelEmail = new JLabel("Email");
-        labelEmail.setFont(new Font("Verdana",Font.PLAIN,16));
-        labelEmail.setBounds(100,200,150,40);
+        labelEmail = GUI.regularText("Email");
+        labelEmail.setBounds(100, 240, 150, 40);
 
         //Input Email
         inputEmail = new JTextField();
-        inputEmail.setBounds(255,200,250,40);
+        inputEmail.setBounds(255, 240, 250, 40);
 
         //Label Password
-        labelPassword = new JLabel("Password");
-        labelPassword.setFont(new Font("Verdana",Font.PLAIN,16));
-        labelPassword.setBounds(100,300,150,40);
+        labelPassword = GUI.regularText("Password");
+        labelPassword.setBounds(100, 340, 150, 40);
 
         //Input Password
         inputPassword = new JPasswordField();
-        inputPassword.setBounds(255,300, 250,40);
+        inputPassword.setBounds(255, 340, 250, 40);
 
         //Button Login
-        buttonLogin = new JButton("Login");
-        buttonLogin.setBounds(100, 400, 200, 40);
-        buttonLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String email = inputEmail.getText();
-                String password = String.valueOf(inputPassword.getPassword());
-                Controller controller = new Controller();
-                User user = controller.LogIn(email,password);
+        buttonLogin = GUI.defaultButton("Login");
+        buttonLogin.setBounds(100, 440, 200, 40);
+        buttonLogin.addActionListener(e -> {
+            String email = inputEmail.getText();
+            String password = String.valueOf(inputPassword.getPassword());
+            Controller controller = new Controller();
+            User user = controller.LogIn(email, password);
 
-                if(user != null){
-                    JOptionPane.showMessageDialog(null, "Welcome Back, "+user.getName()+"!");
-                    frame.dispose();
-                    new EditProfileScreen(user);
-                } else{
-                    JOptionPane.showMessageDialog(null, "Masukkan data dengan benar.");
-                }
+            if (user != null) {
+                JOptionPane.showMessageDialog(null, "Welcome Back, " + user.getName() + "!");
+                frame.dispose();
+                new SeeProfileScreen(user);
+            } else {
+                JOptionPane.showMessageDialog(null, "Masukkan data dengan benar.");
             }
         });
 
         //Button Back
-        buttonBack = new JButton("Back");
-        buttonBack.setBounds(350,400,200,40);
-        buttonBack.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-                new MainScreen();
-            }
+        buttonBack = GUI.defaultButton("Back");
+        buttonBack.setBounds(350, 440, 200, 40);
+        buttonBack.addActionListener(e -> {
+            frame.dispose();
+            new MainScreen();
         });
 
         //Add to panel
@@ -85,10 +81,10 @@ public class LoginScreen {
         panel.add(labelPassword);
         panel.add(inputPassword);
         panel.add(buttonBack);
-
+        panel.add(labelLogo);
+        panel.add(labelJudul);
 
         //Add To Frame
         frame.add(panel);
-
     }
 }

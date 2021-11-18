@@ -7,9 +7,10 @@ public class User {
     private String password;
     private int idCategory;
 
-    public User(){
+    public User() {
 
     }
+
     public User(int id, String name, String email, String password, int idCategory) {
         setId(id);
         setName(name);
